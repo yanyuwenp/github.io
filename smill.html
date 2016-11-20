@@ -1,0 +1,48 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>smill</title>
+	<style>
+		#bgdiv{
+			border:1px solid red;
+			width:400px;
+			height:300px;
+			margin:0px auto;
+			position:relative;
+		}
+		#sundiv{
+			position:absolute;
+		}
+		img{
+			width:60px;
+			height:60px;
+		}
+	</style>
+	<script>
+		directX=1;//x轴方向
+		directY=1;//y轴方向
+		sunX=0;//球坐标x
+		sunY=0;//球坐标y
+		speed=2;
+		function sunMove(){
+			//bgdiv.appendChild(sundiv);//把一个div放到另一个div
+			sunX+=directX*speed;
+			sunY+=directY*speed;
+			sundiv.style.top=sunY+'px';
+			sundiv.style.left=sunX+'px';
+			if(sunX+sundiv.offsetWidth>=bgdiv.clientWidth||sunX<=0){
+				directX=-directX;
+			}
+			if(sunY+sundiv.offsetHeight>=bgdiv.clientHeight||sunY<=0){
+				directY=-directY;
+			}
+		}
+		setInterval('sunMove()',20);
+	</script>
+</head>
+<body>
+	<div id='bgdiv' >
+		<div id='sundiv' ><img src='1.jpg'/></div>
+	</div>	
+</body>
+</html>

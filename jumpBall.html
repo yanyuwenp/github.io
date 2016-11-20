@@ -1,0 +1,94 @@
+<html>
+<head>
+	<style>
+		#main{
+			width:400px;
+			height:400px;
+			background:gray;
+			margin:0 auto;
+			position:relative;
+		}
+		#ball{
+			width:30px;
+			height:30px;
+			background:yellow;
+			border-radius:100%;
+			position:absolute;
+		}
+		#board{
+			width:60px;
+			height:20px;
+			background:red;
+			position:absolute;
+			bottom:0px;
+			left:170px;
+		}
+	</style>
+</head>
+<body>
+	<div id='main'>
+		<div id='ball' style="left:10px;top:30px;"></div>
+		<div id='board'></div>
+	</div>
+	<script>
+		var main=document.getElementById('main');
+		var ball=document.getElementById('ball');
+		var board=document.getElementById('board');
+		ball.speedX=1;
+		ball.speedY=1;
+		ball.run=function(){
+			var left=parseInt(this.style.left)+this.speedX;
+			var top=parseInt(this.style.top)+this.speedY;
+			this.style.left=left+'px';
+			this.style.top=top+'px';
+			this.check(left,top);
+		}
+		
+		ball.check=function(left,top){
+			if(left<=0 || left>=370){//球碰到左右壁，水平方向掉头
+				this.turnX();
+			}
+			if(top<=0){//球碰到上下壁，垂直方向掉头
+				this.turnY();
+			}
+			if(top>=370){
+				clearInterval(c);
+				alert('game over');
+				return;
+			}
+			//检测碰到木板
+			var bleft=parseInt(board.style.left);
+			var btop=parseInt(board.style.top);
+			if(left+15>= bleft && left+15<=bleft+60 && top+30>=btop){
+				this.turnY();
+			}
+		}
+		
+		ball.turnX=function(){
+			this.speedX= -this.speedX;
+		}
+		ball.turnY=function(){
+			this.speedY= -this.speedY;
+		}
+		
+		var c=setInterval(function(){
+		ball.run();
+		},20);
+		
+		main.onmousemove=function(e){
+			if(e.srcElement != main){
+				return;
+			}
+			//console.log(e);
+			board.style.left=e.offsetX - 30+'px';
+			board.style.top=e.offsetY - 20+'px';
+		}
+		
+		ball.init=function(){
+			this.speedX=3;
+			this.speedY=4;
+		}
+		ball.init();
+	</script>
+</body>
+</html>
